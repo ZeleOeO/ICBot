@@ -1,7 +1,10 @@
+import uuid
+
+
 class User:
 
-    def __init__(self, id):
-        self.user_id = id
+    def __init__(self):
+        self.user_id = str(uuid.uuid4())
         self.balance = 0
         self.wallet_address = 0
         self.refer_link = self.create_referral_link()
@@ -9,7 +12,7 @@ class User:
         self.users_refered = []
 
     def create_referral_link(self):
-        return f"ref_{self.user_id}"
+        return f"ref_{self.user_id[:5]}"
 
     def refer_user(self, referred_user):
         self.users_refered.append(referred_user)

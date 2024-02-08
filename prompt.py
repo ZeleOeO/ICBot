@@ -3,7 +3,7 @@ from telebot.async_telebot import types
 import message_handler
 
 
-user = User(message_handler.get_refer_link())
+user = User()
 
 prompt = {
     "ICP-Start": f"""Welcome to ICPBot 🚀Your one-stop destination for managing your ICP wallet and seamlessly trading DFINITY's ICP tokens right from Telegram!
