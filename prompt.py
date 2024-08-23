@@ -1,38 +1,40 @@
-from user import User
-from telebot.async_telebot import types
-import message_handler
+from helper import global_user as user
 
 
-user = User()
+def get_prompt(prompt: str, username: str | None = None) -> str:
+    global user
 
-prompt = {
-    "ICP-Start": f"""Welcome to ICPBot 🚀Your one-stop destination for managing your ICP wallet and seamlessly trading DFINITY's ICP tokens right from Telegram!
-Currently, your ICP wallet shows a balance of 0 ICP. To kickstart your trading journey, deposit some ICP into your CryptoSphere wallet address:
+    value = ""
+    match prompt:
+        case "ICP-Start":
+            value = f"""Welcome to ICPBot 🚀Your one-stop destination for managing your ICP wallet and seamlessly trading DFINITY's ICP tokens right from Telegram!
+  Currently, your ICP wallet shows a balance of 0 ICP. To kickstart your trading journey, deposit some ICP into your CryptoSphere wallet address:
 
-`{user.wallet_address}` (click to copy)
+  `{user.wallet_address}` (click to copy)
 
-After completing the deposit, simply tap on the refresh button, and voila! Your updated ICP balance will be displayed right here.
+  After completing the deposit, simply tap on the refresh button, and voila! Your updated ICP balance will be displayed right here.
 
-To initiate a trade, just input the token's address or drop the canister link of the specific ICP token you're eyeing.
+  To initiate a trade, just input the token's address or drop the canister link of the specific ICP token you're eyeing.
 
-For a comprehensive overview of your wallet, including options to manage and safeguard your assets, tap on the wallet icon below. Remember, while CryptoSphere ensures the utmost security, safeguarding your private key is paramount for asset protection.
-                                                    Check the Menu Below
-    """,
+  For a comprehensive overview of your wallet, including options to manage and safeguard your assets, tap on the wallet icon below. Remember, while CryptoSphere ensures the utmost security, safeguarding your private key is paramount for asset protection.
+                                                      Check the Menu Below
+      """
+        case "Wallet-Menu":
+            value = f"""
+    *Your Wallet:*
+    Address: `{user.wallet_address}`
+    Balance: *${user.balance:.2f}*
 
-    "Wallet-Menu": f"""*Your Wallet:*
-Address: `{user.wallet_address}`
-Balance: *{user.balance}*
+    Click to copy Wallet Address
+      """
+        case "Buy-Menu":
+            value = """Buy Token:
 
-Click to copy Wallet Address
-""",
-
-    "Buy-Menu": """Buy Token:
-
-To buy a token, enter a token address:""",
-
-    "Sell-Menu": """No open positions""",
-
-    "Help-Menu": """
+To buy a token, enter a token address:"""
+        case "Sell-Menu":
+            value = "No open positions"
+        case "Help-Menu":
+            value = """
 **Welcome to ICPBot Help!**
 
 Here are some common questions and answers:
@@ -53,9 +55,9 @@ Here are some common questions and answers:
   Net profit is calculated after deducting all associated costs, including Price Impact, Transfer Tax, Dex Fees, and a 1% BONKbot fee.
 
 For any further questions, feel free to join our Telegram Group Chat.
-    """,
-
-    "Refer-Menu": f"""
+    """
+        case "Refer-Menu":
+            value = f"""
 **Referrals:**
 
 Your reflink: [https://t.me/IC_Deca_Bot?start={user.refer_link}](https://t.me/IC_Deca_Bot?start={user.refer_link})
@@ -76,4 +78,4 @@ Encourage your friends to join and start trading with BONKbot. You'll earn a per
 Remember, the more friends you refer, the more you earn. Happy trading!
     """
 
-}
+    return value
